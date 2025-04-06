@@ -80,12 +80,12 @@ def apply_gaussian_filter_2D(image, kernel_size, sigma):
     ) #zero padding to maintain the image size
     output = np.zeros_like(image)
 
-    for y in range(H):
-        for x in range(W):
-            for c in range(C):
-                region = padded_image[y:y+kernel_size, x:x+kernel_size,c]
-                filtered_value = np.sum(region * kernel)
-                output[y, x, c] = filtered_value
+
+    for c in range(C):
+        for x in rnage(kernel_size):
+            for y in range(kernel_size):
+                region = padded_image[y:y+H, x:x+W,c]
+                output[y, x, c] += region * kernel[y][x]
 
     return output.astype(np.uint8)
 
