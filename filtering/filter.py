@@ -82,7 +82,7 @@ def apply_gaussian_filter_2D(image, kernel_size, sigma):
 
 
     for c in range(C):
-        for x in rnage(kernel_size):
+        for x in range(kernel_size):
             for y in range(kernel_size):
                 region = padded_image[y:y+H, x:x+W,c]
                 output[y, x, c] += region * kernel[y][x]
