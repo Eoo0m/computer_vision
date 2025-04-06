@@ -60,7 +60,7 @@ def apply_gaussian_filter_separable(image, kernel_size, sigma):
     
     return output.astype(np.uint8)
     
-#2d kernel
+#2d kernel efficient
 def apply_gaussian_filter_2D(image, kernel_size, sigma):
     H, W, C = image.shape
     scope = np.linspace(-(kernel_size-1)/2, (kernel_size-1)/2, kernel_size)
@@ -87,8 +87,36 @@ def apply_gaussian_filter_2D(image, kernel_size, sigma):
                 output[:, :, c] += region * kernel[y][x]
 
     return output.astype(np.uint8)
+    
+#2d kernel not vectorized
+def apply_gaussian_filter_original(image, kernel_size, sigma):
+    H, W, C = image.shape
+    scope = np.linspace(-(kernel_size-1)/2, (kernel_size-1)/2, kernel_size)
+    xx, yy = np.meshgrid(scope,scope)
+    kernel = (1/(2 * np.pi * sigma ** 2)) * np.exp(-(xx**2 + yy**2) / (2 * sigma**2))
 
+    kernel /= np.sum(kernel)    # Normalization for the kernel.
 
+    #asymmetric padding for even number.
+    pad1 = kernel_size // 2
+    pad2 = kernel_size - pad1 - 1
+    padded_image = np.pad(
+        image,
+        pad_width=((pad1, pad2), (pad1, pad2), (0, 0)),
+        mode='constant',
+        constant_values=0
+    ) #zero padding to maintain the image size
+    output = np.zeros_like(image)
+
+    for y in range(H):
+        for x in range(W):
+            for c in range(C):
+                region = padded_image[y:y+kernel_size, x:x+kernel_size,c]
+                filtered_value = np.sum(region * kernel)
+                output[y, x, c] = filtered_value
+
+    return output.astype(np.uint8)
+    
 def apply_laplacian_of_gaussian_filter(image, kernel_size, sigma):
     H, W = image.shape
     scope = np.linspace(-(kernel_size-1)/2, (kernel_size-1)/2, kernel_size)
