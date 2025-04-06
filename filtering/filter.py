@@ -78,8 +78,7 @@ def apply_gaussian_filter_2D(image, kernel_size, sigma):
         mode='constant',
         constant_values=0
     ) #zero padding to maintain the image size
-    output = np.zeros_like(image)
-
+    output = np.zeros_like(image, dtype=np.float64)  
 
     for c in range(C):
         for x in range(kernel_size):
