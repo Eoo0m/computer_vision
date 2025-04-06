@@ -60,7 +60,7 @@ def apply_gaussian_filter_separable(image, kernel_size, sigma):
     
     return output.astype(np.uint8)
     
-#2d kernel. 커널의 한 원소를 이미지의 슬라이싱에 곱하기. 
+#2d kernel. 커널의 원소를 이미지의 슬라이싱에 곱해주며 더하는 방식. 
 def apply_gaussian_filter_2D(image, kernel_size, sigma):
     H, W, C = image.shape
     scope = np.linspace(-(kernel_size-1)/2, (kernel_size-1)/2, kernel_size)
