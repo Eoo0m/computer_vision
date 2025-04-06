@@ -22,6 +22,15 @@ def apply_laplacian_filter(image):
     return output
     
 
+'''
+[args]: 
+image: color image(H,W,C), uint8 type
+kernel_size: size of kernel. asymmetric padding if even number.
+sigma: blurring hyperparameter.
+A larger sigma results in a smoother, more diffused blur.
+
+'''
+#1d kernel
 def apply_gaussian_filter_separable(image, kernel_size, sigma):
     H, W, C = image.shape
     
@@ -50,15 +59,7 @@ def apply_gaussian_filter_separable(image, kernel_size, sigma):
             output[:, :, c] += intermediate[i:H + i, pad1:W + pad1] * kernel[i]
     
     return output
-
-'''
-[args]: 
-image: color image(H,W,C), uint8 type
-kernel_size: size of kernel. asymmetric padding if even number.
-sigma: blurring hyperparameter.
-A larger sigma results in a smoother, more diffused blur.
-
-'''
+#2d kernel
 def apply_gaussian_filter_2D(image, kernel_size, sigma):
     H, W, C = image.shape
     scope = np.linspace(-(kernel_size-1)/2, (kernel_size-1)/2, kernel_size)
