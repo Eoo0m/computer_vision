@@ -51,12 +51,12 @@ def apply_gaussian_filter_separable(image, kernel_size, sigma):
         
         # 수평 방향
         intermediate = np.zeros((H + pad1 + pad2, W + pad1 + pad2), dtype=np.float32)
-        for i in range(kernel_size):
-            intermediate[pad1:H + pad1, pad1:W + pad1] += input_channel[pad1:H + pad1, i:W + i] * kernel[i]
+        for x in range(kernel_size):
+            intermediate[pad1:H + pad1, pad1:W + pad1] += input_channel[pad1:H + pad1, x:W + x] * kernel[x]
         
         # 수직 방향
-        for i in range(kernel_size):
-            output[:, :, c] += intermediate[i:H + i, pad1:W + pad1] * kernel[i]
+        for y in range(kernel_size):
+            output[:, :, c] += intermediate[y:H + y, pad1:W + pad1] * kernel[y]
     
     return output.astype(np.uint8)
     
@@ -85,7 +85,7 @@ def apply_gaussian_filter_2D(image, kernel_size, sigma):
         for x in range(kernel_size):
             for y in range(kernel_size):
                 region = padded_image[y:y+H, x:x+W,c]
-                output[y, x, c] += region * kernel[y][x]
+                output[:, :, c] += region * kernel[y][x]
 
     return output.astype(np.uint8)
 
