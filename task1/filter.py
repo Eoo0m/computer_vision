@@ -19,7 +19,7 @@ def apply_laplacian_filter(image):
             region = padded_image[x:x+3, y:y+3]
             filtered_value = np.sum(region * kernel)
             output[x, y] = filtered_value    #replace pixel by calculated value
-    return output
+    return output.astype(np.uint8)
     
 
 '''
@@ -58,7 +58,8 @@ def apply_gaussian_filter_separable(image, kernel_size, sigma):
         for i in range(kernel_size):
             output[:, :, c] += intermediate[i:H + i, pad1:W + pad1] * kernel[i]
     
-    return output
+    return output.astype(np.uint8)
+    
 #2d kernel
 def apply_gaussian_filter_2D(image, kernel_size, sigma):
     H, W, C = image.shape
@@ -86,7 +87,7 @@ def apply_gaussian_filter_2D(image, kernel_size, sigma):
                 filtered_value = np.sum(region * kernel)
                 output[y, x, c] = filtered_value
 
-    return output
+    return output.astype(np.uint8)
 
 
 def apply_laplacian_of_gaussian_filter(image, kernel_size, sigma):
@@ -116,4 +117,4 @@ def apply_laplacian_of_gaussian_filter(image, kernel_size, sigma):
 
 
 
-    return output
+    return output.astype(np.uint8)
